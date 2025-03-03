@@ -11,6 +11,10 @@ class LevelController extends Controller
         //DB::insert('insert into m_level(level_code, level_name, created_at) values(?,?,?)', ['CUS', 'Pelanggan', now()]);
         //return 'Insert data baru berhasil';
 
+        //DB::insert('INSERT INTO m_level (level_id, level_code, level_name, created_at) VALUES (?, ?, ?, ?)', 
+    //[4, 'CUS', 'Pelanggan', now()]);
+
+
         //$row = DB::update('update m_level set level_name = ? where level_code = ?', ['Customer', 'CUS']);
         //return 'Update data berhasil. Jumlah data yang diupdate: ' .$row.' baris';
 
