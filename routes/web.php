@@ -16,24 +16,7 @@ Route::post('login',[AuthController::class, 'postlogin']);
 Route::get('logout',[AuthController::class, 'logout'])->middleware('auth');
 
 Route::middleware(['auth'])->group(function(){
-
-});
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/level', [LevelController::class, 'index']);
-// Route::get('/category', [KategoriController::class, 'index']);
-// Route::get('/user', [UserController::class, 'index']);
-// Route::get('/user/tambah', [UserController::class, 'tambah']);
-// Route::post('/user/tambah_simpan', [UserController::class, 'tambah_simpan']);
-// Route::get('/user/ubah/{id}', [UserController::class, 'ubah']);
-// Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
-// Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
-//Route::get('/', [WelcomeController::class, 'index']);
-
-Route::get("/", [WelcomeController::class, 'index'])->middleware('auth');
+    Route::get("/", [WelcomeController::class, 'index']);
 
 Route::group(['prefix' => 'user'], function () {
     Route::get('/', [UserController::class, 'index']); // menampilkan halaman awal user
@@ -52,7 +35,8 @@ Route::group(['prefix' => 'user'], function () {
     Route::delete('/{id}', [UserController::class, 'destroy']); // menghapus data user
 });
 
-Route::group(['prefix' => 'level'], function () {
+ // artinya semua route di dalam group ini harus punya role ADM (Administrator)
+ Route::middleware(['authorize:ADM'])->prefix('level')->group(function () {
     Route::get('/', [LevelController::class, 'index']);
     Route::post('/list', [LevelController::class, 'list']);
     Route::get('/create', [LevelController::class, 'create']);
@@ -109,4 +93,5 @@ Route::group(['prefix' => 'barang'], function () {
     Route::get('/{id}/delete_ajax', [BarangController::class, 'confirm_ajax' ]);
     Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax' ]);
     Route::delete('/{id}', [BarangController::class, 'destroy']);
+});
 });
