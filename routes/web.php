@@ -102,4 +102,5 @@ Route::group(['prefix' => 'barang'], function () {
     Route::get('/export_excel', [BarangController::class, 'export_excel']); // export excel
     Route::get('/export_pdf', [BarangController::class, 'export_pdf']); // export pdf
 });
+Route::post('/profile/upload', [App\Http\Controllers\ProfileController::class, 'upload'])->name('profile.upload');
 });
