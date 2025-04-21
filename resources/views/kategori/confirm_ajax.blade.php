@@ -12,12 +12,12 @@
                     <h5><i class="fa fa-ban icon"></i> Error!!</h5>
                     The data you are looking for is not found
                 </div>
-                <a href="{{ url('/category') }}" class="btn btn-warning">Return</a>
+                <a href="{{ url('/kategori') }}" class="btn btn-warning">Return</a>
             </div>
         </div>
     </div>
 @else
-    <form action="{{ url('/category/' . $category->category_id . '/delete_ajax') }}" method="POST" id="form-delete">
+    <form action="{{ url('/kategori/' . $category->category_id . '/delete_ajax') }}" method="POST" id="form-delete">
         @csrf
         @method('DELETE')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
@@ -36,15 +36,15 @@
                     <table class="table table-sm table-bordered table-striped">
                         <tr>
                             <th class="text-right col-3">Category ID:</th>
-                            <td class="col-9">{{ $category->category_id }}</td>
+                            <td class="col-9">{{ $kategori->category_id }}</td>
                         </tr>
                         <tr>
                             <th class="text-right col-3">Category Name:</th>
-                            <td class="col-9">{{ $category->category_name }}</td>
+                            <td class="col-9">{{ $kategori->category_name }}</td>
                         </tr>
                         <tr>
                             <th class="text-right col-3">Category Level:</th>
-                            <td class="col-9">{{ $category->categeory_code }}</td>
+                            <td class="col-9">{{ $kategori->categeory_code }}</td>
                         </tr>
                     </table>
                 </div>

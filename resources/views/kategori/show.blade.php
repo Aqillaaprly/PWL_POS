@@ -12,29 +12,29 @@
                 </div>
             @endif
 
-            @if($category)
+            @if($kategori)
                 <table class="table table-bordered table-striped">
                     <tr>
                         <th>ID</th>
-                        <td>{{ $category->category_id }}</td>
+                        <td>{{ $kategori->category_id }}</td>
                     </tr>
                     <tr>
                         <th>Kode Kategori</th>
-                        <td>{{ $category->category_code }}</td>
+                        <td>{{ $kategori->category_code }}</td>
                     </tr>
                     <tr>
                         <th>Nama Kategori</th>
-                        <td>{{ $category->category_name }}</td>
+                        <td>{{ $kategori->category_name }}</td>
                     </tr>
                 </table>
 
-                <a href="{{ url('/category') }}" class="btn btn-secondary mt-3">Kembali</a>
+                <a href="{{ url('/kategori') }}" class="btn btn-secondary mt-3">Kembali</a>
             @else
                 <div class="alert alert-danger">
                     <h5><i class="icon fas fa-ban"></i> Error!</h5>
                     Data kategori tidak ditemukan.
                 </div>
-                <a href="{{ url('/category') }}" class="btn btn-default mt-2">Kembali</a>
+                <a href="{{ url('/kategori') }}" class="btn btn-default mt-2">Kembali</a>
             @endif
         </div>
     </div>

@@ -21,7 +21,6 @@ class BarangController extends Controller
             'title' => 'Daftar Barang',
             'list' => ['Home', 'Barang']
         ];
-
         $kategori = KategoriModel::select('category_id', 'category_name')->get();
 
         return view('barang.index', [
@@ -29,40 +28,6 @@ class BarangController extends Controller
             'breadcrumb' => $breadcrumb,
             'category' => $kategori
         ]);
-    }
-
-    public function create()
-    {
-        $breadcrumb = (object) [
-            'title' => 'Tambah Barang',
-            'list' => ['Home', 'Barang', 'Tambah']
-        ];
-
-        $page = (object) [
-            'title' => 'Tambah Barang Baru'
-        ];
-
-        $activeMenu = 'barang';
-
-        return view('barang.create', compact('breadcrumb', 'page', 'activeMenu'));
-    }
-
-    public function show(string $id)
-    {
-        $barang = BarangModel::find($id);
-
-        $breadcrumb = (object) [
-            'title' => 'Detail Barang',
-            'list' => ['Home', 'Barang', 'Detail']
-        ];
-
-        $page = (object) [
-            'title' => 'Detail Barang'
-        ];
-
-        $activeMenu = 'barang';
-
-        return view('barang.show', compact('breadcrumb', 'page', 'barang', 'activeMenu'));
     }
 
     public function list(Request $request)
@@ -94,75 +59,6 @@ class BarangController extends Controller
             })
             ->rawColumns(['action'])
             ->make(true);
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'barang_kode' => 'required|string|max:50|unique:m_barang,barang_kode',
-            'barang_nama' => 'required|string|max:100',
-            'harga_beli' => 'required|numeric|min:0',
-            'harga_jual' => 'required|numeric|min:0'
-        ]);
-
-        BarangModel::create($request->all());
-
-        return redirect('/barang')->with('success', 'Barang berhasil ditambahkan!');
-    }
-
-    public function edit(string $id)
-    {
-        $barang = BarangModel::find($id);
-        if (!$barang) {
-            return redirect('/barang')->with('error', 'Barang tidak ditemukan.');
-        }
-
-        $breadcrumb = (object) [
-            'title' => 'Edit Barang',
-            'list' => ['Home', 'Barang', 'Edit']
-        ];
-
-        $page = (object) [
-            'title' => 'Edit Barang'
-        ];
-
-        $activeMenu = 'barang';
-
-        return view('barang.edit', compact('breadcrumb', 'page', 'barang','activeMenu'));
-    }
-
-    public function update(Request $request, string $id)
-    {
-        $request->validate([
-            'barang_kode' => 'required|string|max:50|unique:m_barang,barang_kode,' . $id . ',barang_id',
-            'barang_nama' => 'required|string|max:100',
-            'harga_beli' => 'required|numeric|min:0',
-            'harga_jual' => 'required|numeric|min:0'
-        ]);
-
-        $barang = BarangModel::find($id);
-        if (!$barang) {
-            return redirect('/barang')->with('error', 'Barang tidak ditemukan.');
-        }
-
-        $barang->update($request->all());
-
-        return redirect('/barang')->with('success', 'Barang berhasil diperbarui!');
-    }
-
-    public function destroy(string $id)
-    {
-        $barang = BarangModel::find($id);
-        if (!$barang) {
-            return redirect('/barang')->with('error', 'Barang tidak ditemukan.');
-        }
-
-        try {
-            $barang->delete();
-            return redirect('/barang')->with('success', 'Barang berhasil dihapus!');
-        } catch (\Illuminate\Database\QueryException $e) {
-            return redirect('/barang')->with('error', 'Barang gagal dihapus karena masih terkait dengan data lain.');
-        }
     }
 
     public function create_ajax()
@@ -204,7 +100,7 @@ class BarangController extends Controller
     public function edit_ajax(string $id)
     {
         $barang = BarangModel::find($id);
-        $level = LevelModel::select('level_id','level_name');
+        $level = LevelModel::select('level_id','level_name')->get();
         return view('barang.edit_ajax', ['barang'=>$barang, 'level'=>$level]);
     }
 
@@ -280,33 +176,58 @@ class BarangController extends Controller
 public function import_ajax(Request $request)
 {
     if ($request->ajax() || $request->wantsJson()) {
-
-        // ✅ File validation: only xls or xlsx, max 1MB
+        // file validation must be xls or xlsx, max 1MB
         $rules = [
-            'file_barang' => ['required', 'mimes:xls,xlsx', 'max:1024']
+            'file_barang' => ['required', 'mimes:xlsx,xls', 'max:1024']
         ];
 
         $validator = Validator::make($request->all(), $rules);
-
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => 'File validation failed!',
+                'message' => 'Validation Failed',
                 'msgField' => $validator->errors()
             ]);
         }
 
-        // ✅ Store file temporarily
-        $file = $request->file('file_barang');
-        $filePath = $file->store('temp'); // stored in storage/app/temp
+        $file = $request->file('file_barang'); // Retrieve files from requests
+        $reader = IOFactory::createReader('Xlsx'); // Load Reader Excel File
+        $reader->setReadDataOnly(true); // Read only data
+        $spreadsheet = $reader->load($file->getRealPath()); // Load Excel file
+        $sheet = $spreadsheet->getActiveSheet(); // Take an active sheet
+        $data = $sheet->toArray(null, false, true, true); // Retrieve Excel Data
 
-        // 🚨 Optional: process file with PhpSpreadsheet or Laravel Excel
+        $insert = [];
+        if (count($data) > 1) {
+            // if the data is more than 1 line
+            foreach ($data as $baris => $value) {
+                if ($baris > 1) { // line 1 is the header, skip
+                    $insert[] = [
+                        'category_id' => $value['A'],
+                        'barang_kode' => $value['B'],
+                        'barang_nama' => $value['C'],
+                        'harga_beli' => $value['D'],
+                        'harga_jual' => $value['E'],
+                        'created_at' => now(),
+                    ];
+                }
+            }
 
-        return response()->json([
-            'status' => true,
-            'message' => 'File uploaded successfully',
-            'path' => $filePath
-        ]);
+            if (count($insert) > 0) {
+                // insert data into the database, if the data already exists, then it is ignored
+                BarangModel::insertOrIgnore($insert);
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Data imported successfully'
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'No data imported'
+            ]);
+        }
     }
 
     return redirect('/');

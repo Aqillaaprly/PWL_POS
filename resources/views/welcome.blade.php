@@ -9,7 +9,7 @@
             <div class="card-body box-profile text-center">
                 @if (session('photo'))
                     <img class="profile-user-img img-fluid img-circle"
-                         src="{{ asset('storage/' . session('photo')) }}"
+                     src="{{ asset('storage/' . session('photo')) }}"
                          alt="User profile picture">
                 @else
                     <img class="profile-user-img img-fluid img-circle"
@@ -54,7 +54,4 @@
         </div>
     </div>
 </div>
-
-
-
 @endsection

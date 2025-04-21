@@ -5,8 +5,8 @@
         <div class="card-header">
             <h3 class="card-title">Daftar Kategori</h3>
             <div class="card-tools">
-                <a class="btn btn-sm btn-primary mt-1" href="{{ url('category/create') }}">Tambah Kategori</a>
-                <button onclick="modalAction('{{ url('category/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Add Ajax</button>
+                <a class="btn btn-sm btn-primary mt-1" href="{{ url('kategori/create') }}">Tambah Kategori</a>
+                <button onclick="modalAction('{{ url('kategori/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Add Ajax</button>
             </div>
         </div>
 
@@ -37,7 +37,7 @@
             </div>
 
             <!-- Table -->
-            <table class="table table-bordered table-striped table-hover table-sm" id="table_category">
+            <table class="table table-bordered table-striped table-hover table-sm" id="table_kategory">
                 <thead>
                     <tr>
                         <th>ID</th>

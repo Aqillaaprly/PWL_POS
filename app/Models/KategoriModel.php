@@ -15,7 +15,7 @@ class KategoriModel extends Model
 
     public $timestamps = false; // Jika tidak ada timestamps (created_at, updated_at)
 
-    protected $fillable = ['category_id', 'category_code', 'category_name']; // Pastikan kolom bisa diisi
+    protected $fillable = ['category_code', 'category_name']; // Pastikan kolom bisa diisi
 
     public function users(): HasMany
     {

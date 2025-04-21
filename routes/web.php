@@ -84,23 +84,20 @@ Route::group(['prefix' => 'supplier'], function () {
     Route::delete('/{id}', [SupplierController::class, 'destroy']);
 });
 
-Route::group(['prefix' => 'barang'], function () {
+Route::group(['prefix' => 'barang'], function (){ 
     Route::get('/', [BarangController::class, 'index']);
     Route::post('/list', [BarangController::class, 'list']);
-    Route::get('/create', [BarangController::class, 'create']);
-    Route::get('/create_ajax', [BarangController::class, 'create_ajax']);
-    Route::post('/ajax', [BarangController::class, 'store_ajax']);
-    Route::get('/{id}', [BarangController::class, 'show']);
-    Route::get('/{id}/edit', [BarangController::class, 'edit']);
-    Route::get('/{id}/edit_ajax', [BarangController::class, 'edit_ajax' ]);
-    Route::put('/{id}/update_ajax', [BarangController::class, 'update_ajax' ]);
-    Route::get('/{id}/delete_ajax', [BarangController::class, 'confirm_ajax' ]);
-    Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax' ]);
-    Route::delete('/{id}', [BarangController::class, 'destroy']);
+    Route::get('/create_ajax', [BarangController::class, 'create_ajax']); // ajax form create
+    Route::post('/barang_ajax', [BarangController::class, 'store_ajax']); // ajax store
+    Route::get('/{id}/edit_ajax', [BarangController::class, 'edit_ajax']); // ajax form edit
+    Route::put('/{id}/update_ajax', [BarangController::class, 'update_ajax']); // ajax update
+    Route::get('/{id}/delete_ajax', [BarangController::class, 'confirm_ajax']); // ajax form confirm
+    Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax']); // ajax delete
     Route::get('/import', [BarangController::class, 'import']); // ajax form upload excel
     Route::post('/import_ajax', [BarangController::class, 'import_ajax']); // ajax import excel
     Route::get('/export_excel', [BarangController::class, 'export_excel']); // export excel
     Route::get('/export_pdf', [BarangController::class, 'export_pdf']); // export pdf
 });
+
 Route::post('/profile/upload', [App\Http\Controllers\ProfileController::class, 'upload'])->name('profile.upload');
 });

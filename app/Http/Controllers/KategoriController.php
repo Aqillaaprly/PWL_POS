@@ -22,7 +22,7 @@ class KategoriController extends Controller
         ];
 
         $activeMenu = 'category';
-        $kategoris = KategoriModel::all();
+        $kategoris = request()->ajax() ? [] : KategoriModel::all();
 
         return view('kategori.index', compact('breadcrumb', 'page', 'kategoris', 'activeMenu'));
     }
@@ -136,7 +136,7 @@ class KategoriController extends Controller
     public function destroy(string $id)
     {
         $category = KategoriModel::find($id);
-        if ($category) {
+        if (!$category) {
             return redirect('/category')->with('error', 'Kategori tidak ditemukan.');
         }
 
