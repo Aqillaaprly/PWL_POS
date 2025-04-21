@@ -66,7 +66,7 @@ $(document).ready(function() {
                             title: 'Succeed',
                             text: response.message
                         });
-                        dataUser.ajax.reload();
+                        $('#table_user').DataTable().ajax.reload();
                     } else {
                         $('.error-text').text('');
                         $.each(response.msgField, function(prefix, val) {
