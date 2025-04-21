@@ -50,9 +50,7 @@ class BarangController extends Controller
         return DataTables::of($barang)
             ->addIndexColumn()
             ->addColumn('action', function ($barang) {
-                $btn ='';
-
-                $btn = '<button onclick="modalAction(\''.url('/barang/' . $barang->barang_id . '/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn = '<button onclick="modalAction(\'' . url('/barang/' . $barang->barang_id) . '\')" class="btn btn-info btn-sm">Detail</button> ';
                 $btn .= '<button onclick="modalAction(\''.url('/barang/' . $barang->barang_id . '/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> ';
                 $btn .= '<button onclick="modalAction(\''.url('/barang/' . $barang->barang_id . '/delete_ajax').'\')" class="btn btn-danger btn-sm">Delete</button> ';
                 return $btn;
@@ -60,6 +58,29 @@ class BarangController extends Controller
             ->rawColumns(['action'])
             ->make(true);
     }
+    public function show(string $id)
+    {
+        $barang = BarangModel::with('kategori')->find($id);
+
+        $breadcrumb = (object) [
+            'title' => 'Detail Barang',
+            'list' => ['Home', 'Barang', 'Detail']
+        ];
+
+        $page = (object) [
+            'title' => 'Detail Barang'
+        ];
+
+        $activeMenu = 'barang';
+
+        return view('barang.show_ajax', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'barang' => $barang,
+            'activeMenu' => $activeMenu
+        ]);
+    }
+
 
     public function create_ajax()
     {
@@ -170,7 +191,7 @@ class BarangController extends Controller
 
     public function import()
 {
-    return view('barang.import'); // Make sure this Blade file exists
+    return view('barang.import'); 
 }
 
 public function import_ajax(Request $request)
@@ -269,7 +290,7 @@ public function export_excel()
 
         $sheet->setTitle('Data Barang'); // set title sheet
 
-        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer = IOFactory::createWriter($spreadsheet, 'xlsx');
         $filename = 'Data Barang ' . date('Y-m-d H:i:s') . '.xlsx';
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

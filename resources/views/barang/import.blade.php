@@ -14,7 +14,7 @@
                 </div>
                 <div class="form-group">
                     <label>Select File</label>
-                    <input type="file" name="file_barang" id="file_barang" class="form-control" accept=".xlsx" required>
+                    <input type="file" name="file_barang" id="file_barang" class="form-control" accept=".xls,.xlsx,.csv" required>
                     <small id="error-file_barang" class="error-text form-text text-danger"></small>
                 </div>
             </div>

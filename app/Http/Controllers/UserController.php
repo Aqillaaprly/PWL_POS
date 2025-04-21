@@ -44,9 +44,9 @@ if ($request->level_id) {
 return DataTables::of($users)  
     ->addIndexColumn() // Adds an index/no sort column (default column name: DT_RowIndex)
     ->addColumn('action', function ($user) { // Add action column  
-        $btn = '<button onclick="modalAction(\''.url('/user/' . $user->user_id . '/show_ajax').'\')" 
+        $btn = '<button onclick="modalAction(\'' . url('/user/' . $user->user_id ) . '\')" 
                 class="btn btn-info btn-sm">Detail</button> ';
-        
+
         $btn .= '<button onclick="modalAction(\''.url('/user/' . $user->user_id . '/edit_ajax').'\')" 
                  class="btn btn-warning btn-sm">Edit</button> ';
         
@@ -58,6 +58,7 @@ return DataTables::of($users)
     ->rawColumns(['action']) // Tells DataTables that the action column contains raw HTML  
     ->make(true);  
 }
+
 // Menampilkan halaman form tambah user
 public function create()
 {
@@ -109,7 +110,7 @@ public function show(string $id)
 
     $breadcrumb = (object) [
         'title' => 'Detail User',
-        'list'  => ['Home', 'User', 'Detail']
+        'list' => ['Home', 'User', 'Detail']
     ];
 
     $page = (object) [
@@ -118,13 +119,14 @@ public function show(string $id)
 
     $activeMenu = 'user'; // set menu yang sedang aktif
 
-    return view('user.show', [
+    return view('user.show_ajax', [
         'breadcrumb' => $breadcrumb,
-        'page'       => $page,
-        'user'       => $user,
+        'page' => $page,
+        'user' => $user,
         'activeMenu' => $activeMenu
     ]);
 }
+
 // Menampilkan halaman form edit user
 public function edit(string $id)
 {

@@ -90,6 +90,7 @@ Route::group(['prefix' => 'barang'], function (){
     Route::get('/create_ajax', [BarangController::class, 'create_ajax']); // ajax form create
     Route::post('/barang_ajax', [BarangController::class, 'store_ajax']); // ajax store
     Route::get('/{id}/edit_ajax', [BarangController::class, 'edit_ajax']); // ajax form edit
+    Route::get('/{id}', [BarangController::class, 'show']);
     Route::put('/{id}/update_ajax', [BarangController::class, 'update_ajax']); // ajax update
     Route::get('/{id}/delete_ajax', [BarangController::class, 'confirm_ajax']); // ajax form confirm
     Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax']); // ajax delete
