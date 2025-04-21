@@ -36,13 +36,13 @@
                 </div>
                 <div class="form-group">
                     <label>Level Name</label>
-                    <input value="{{ $level->level_name }}" type="text" name="level_name" id="level_name" class="form-control" required>
-                    <small id="error-level_name" class="error-text form-text text-danger"></small>
+                    <input value="{{ $level->level_code }}" type="text" name="level_code" id="level_code" class="form-control" required>
+                    <small id="error-level_code" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Description</label>
-                    <textarea name="level_description" id="level_description" class="form-control" required>{{ $level->level_description }}</textarea>
-                    <small id="error-level_description" class="error-text form-text text-danger"></small>
+                    <textarea name="level_name" id="level_name" class="form-control" required>{{ $level->level_name }}</textarea>
+                    <small id="error-level_name" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">
@@ -59,8 +59,7 @@ $(document).ready(function() {
         rules: {
             level_code: { required: true, minlength: 2, maxlength: 20 },
             level_name: { required: true, minlength: 3, maxlength: 50 },
-            level_description: { required: true, minlength: 5, maxlength: 255 }
-        },
+                    },
         submitHandler: function(form) {
             $.ajax({
                 url: form.action,
