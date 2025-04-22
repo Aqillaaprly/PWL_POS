@@ -14,7 +14,9 @@
                 </div>
                 <div class="form-group">
                     <label>Select File</label>
-                    <input type="file" name="file_barang" id="file_barang" class="form-control" accept=".xls,.xlsx,.csv" required>
+                    <input type="file" name="file_barang" id="file_barang" class="form-control" 
+                    accept=".xls,.xlsx,.csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
+                    required>
                     <small id="error-file_barang" class="error-text form-text text-danger"></small>
                 </div>
             </div>
@@ -32,7 +34,7 @@ $(document).ready(function() {
         rules: {
             file_barang: {
                 required: true,
-                extension: "xlsx"
+                //extension: "xlsx"
             },
         },
         submitHandler: function(form) {
@@ -52,7 +54,7 @@ $(document).ready(function() {
                             title: 'Successful',
                             text: response.message
                         });
-                        tableItem.ajax.reload(); // Reload datatable
+                        dataBarang.ajax.reload(); // Reload datatable
                     } else { // if there is an error
                         $('.error-text').text('');
                         $.each(response.msgField, function(prefix, val) {
@@ -81,4 +83,4 @@ $(document).ready(function() {
         }
     });
 });
-</script>
+</script> 

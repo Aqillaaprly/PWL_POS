@@ -67,9 +67,9 @@
         });
     }
     
-    var tableItem;
+    var dataBarang;
 $(document).ready(function(){
-    tableItem = $('#table-barang').DataTable({
+    dataBarang = $('#table-barang').DataTable({
         processing: true,
         serverSide: true,
         ajax: {
@@ -150,12 +150,12 @@ $(document).ready(function(){
     
     $('#table-barang_filter input').unbind().bind().on('keyup', function(e){
         if(e.keyCode == 13){ // enter key
-            tableItem.search(this.value).draw();
+            dataBarang.search(this.value).draw();
         }
     });
     
     $('.filter_kategori').change(function(){
-        tableItem.draw();
+        dataBarang.draw();
     });
 });
 </script>
