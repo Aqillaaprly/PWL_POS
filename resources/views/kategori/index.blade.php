@@ -37,7 +37,7 @@
             </div>
 
             <!-- Table -->
-            <table class="table table-bordered table-striped table-hover table-sm" id="table_kategory">
+            <table class="table table-bordered table-striped table-hover table-sm" id="table_kategori">
                 <thead>
                     <tr>
                         <th>ID</th>

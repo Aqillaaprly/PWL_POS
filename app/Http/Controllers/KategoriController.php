@@ -22,7 +22,7 @@ class KategoriController extends Controller
         ];
 
         $activeMenu = 'category';
-        $kategoris = request()->ajax() ? [] : KategoriModel::all();
+        $kategoris = KategoriModel::all();
 
         return view('kategori.index', compact('breadcrumb', 'page', 'kategoris', 'activeMenu'));
     }
@@ -69,10 +69,10 @@ class KategoriController extends Controller
 
         return DataTables::of($kategoris)
             ->addIndexColumn()
-            ->addColumn('action', function ($category) {
-                $btn = '<button onclick="modalAction(\''.url('/category/' . $category->category_id . '/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn .= '<button onclick="modalAction(\''.url('/category/' . $category->category_id . '/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\''.url('/category/' . $category->category_id . '/delete_ajax').'\')" class="btn btn-danger btn-sm">Delete</button> ';
+            ->addColumn('action', function ($kategori) {
+                $btn = '<button onclick="modalAction(\'' . url('/kategori/' . $kategori->category_id) . '\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/kategori/' . $kategori->category_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/kategori/' . $kategori->category_id . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Delete</button> ';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -88,7 +88,7 @@ class KategoriController extends Controller
 
         KategoriModel::create($request->all());
 
-        return redirect('/category')->with('success', 'Kategori berhasil ditambahkan!');
+        return redirect('/kategori')->with('success', 'Kategori berhasil ditambahkan!');
     }
 
     public function edit(string $id)
